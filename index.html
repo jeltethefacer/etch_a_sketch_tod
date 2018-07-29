@@ -13,8 +13,6 @@
     }
 
     .box {
-        width: 50px;
-        height: 50px;
         border-style: solid;
         border-width: 1px;
         background-color: green;
@@ -26,22 +24,58 @@
     <h1>
 	    Dom Manipulation
 	  </h1>
+    <input type="number" min=12 max=64 name="gridSize" id="gridSize" value="32">
+    <button id="clearGrid">clear grid</button>
+    <input type="color" name="pickColor" id="pickColor">
     <div id="container" class="flex-container"></div>
     <script type="text/javascript">
-    // your javascript file
+    function changeColor(e) {
+        e.target.style.background = document.getElementById("pickColor").value;
+    }
 
-    const container = document.querySelector('#container');
-    for (let y = 0; y < 16; y++) {
-        const content = document.createElement('div');
-        content.classList.add('content');
-        for (let x = 0; x < 16; x++) {
-            const box = document.createElement("div");
-            box.classList.add("box");
-            content.appendChild(box);
+    function createGridElement(size) {
+        const grid = document.createElement("div");
+        grid.id = "grid"
+        for (let y = 0; y < size; y++) {
+            const content = document.createElement("div");
+            content.classList.add('content');
+            for (let x = 0; x < size; x++) {
+                const box = document.createElement("div");
+                box.classList.add("box");
+                // rescales the thing to have the same total width;
+                let width = 640 / size;
+                box.style.width = width + "px";
+                box.style.height = width + "px";
+
+                box.addEventListener("mouseenter", changeColor)
+                content.appendChild(box);
+            }
+            grid.appendChild(content);
+        }
+        return grid
+    }
+
+    function renderGrid() {
+        let container = document.querySelector("#container");
+        let grid = document.getElementById("grid")
+        let gridSize = document.getElementById("gridSize").value;
+        // checks if there already is a grid
+        if (grid) {
+            container.removeChild(grid);
         }
 
-        container.appendChild(content);
+        //keeps value between 12 and 64
+        if (gridSize > 64) {
+            gridSize = 64;
+        } else if (gridSize < 12) {
+            gridSize = 12;
+        }
+
+        container.appendChild(createGridElement(gridSize))
     }
+
+    document.getElementById("clearGrid").addEventListener("click", renderGrid)
+    renderGrid()
     </script>
 </body>
 
