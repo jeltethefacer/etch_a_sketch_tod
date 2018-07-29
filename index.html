@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    .flex-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-container>div {
+        display: flex;
+    }
+
+    .box {
+        width: 50px;
+        height: 50px;
+        border-style: solid;
+        border-width: 1px;
+        background-color: green;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>
+	    Dom Manipulation
+	  </h1>
+    <div id="container" class="flex-container"></div>
+    <script type="text/javascript">
+    // your javascript file
+
+    const container = document.querySelector('#container');
+    for (let y = 0; y < 16; y++) {
+        const content = document.createElement('div');
+        content.classList.add('content');
+        for (let x = 0; x < 16; x++) {
+            const box = document.createElement("div");
+            box.classList.add("box");
+            content.appendChild(box);
+        }
+
+        container.appendChild(content);
+    }
+    </script>
+</body>
+
+</html>
